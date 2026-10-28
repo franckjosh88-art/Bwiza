@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DESIGN TOKENS
+   Palette volontairement limitée : vert profond, crème, noir doux.
+   ========================================================================== */
+@theme {
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --color-ink: #16241d; /* noir doux, texte principal */
+  --color-forest: #1f4d3a; /* vert profond, couleur de marque */
+  --color-forest-dark: #123226;
+  --color-cream: #faf6ef; /* fond crème */
+  --color-cream-deep: #f1ead9;
+  --color-sand: #c9a65d; /* accent discret */
+}
+
+html {
+  scroll-behavior: auto; /* le scroll fluide est géré par Lenis en JS */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background-color: #1f4d3a;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Grain papier très léger sur le fond crème (texture subtile, non animée)
+   -------------------------------------------------------------------------- */
+.grain-texture {
+  position: relative;
+  isolation: isolate;
+}
+.grain-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-forest);
+  border-radius: 999px;
+}
+
+/* Focus clavier visible (accessibilité) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Utilitaires pour les animations de révélation de texte (lignes masquées)
+   -------------------------------------------------------------------------- */
+.reveal-line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* Lenis : désactive l'overscroll "bounce" disgracieux pendant le smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
